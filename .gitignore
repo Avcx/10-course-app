@@ -5,6 +5,11 @@
 /.pnp
 .pnp.js
 
+# example files
+
+/markup
+/mockups
+
 # testing
 /coverage
 
