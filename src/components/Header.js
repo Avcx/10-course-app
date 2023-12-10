@@ -5,8 +5,8 @@ import Nav from "./Nav";
 const Header = () => {
   return (
     <header>
-      <div class="wrap header--flex">
-        <h1 class="header--logo">
+      <div className="wrap header--flex">
+        <h1 className="header--logo">
           <Link to="/">Courses</Link>
         </h1>
         <Nav />

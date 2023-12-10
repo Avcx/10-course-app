@@ -7,14 +7,14 @@ const Nav = () => {
   return (
     <nav>
       {authUser ? (
-        <ul class="header--signedin">
+        <ul className="header--signedin">
           <li>Welcome, Joe Smith!</li>
           <li>
             <Link to="/sign-out">Sign Out</Link>
           </li>
         </ul>
       ) : (
-        <ul class="header--signedout">
+        <ul className="header--signedout">
           <li>
             <Link to="/sign-up">Sign Up</Link>
           </li>
