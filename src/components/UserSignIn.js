@@ -1,8 +1,10 @@
-import { useContext, useRef } from "react";
+import { useContext, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import UserContext from "../context/UserContext";
+import ErrorDisplay from "./ErrorDisplay";
 
 const UserSignIn = () => {
+  const [errors, setErrors] = useState([]);
   const { actions } = useContext(UserContext);
   const nav = useNavigate();
   const username = useRef(null);
@@ -18,6 +20,8 @@ const UserSignIn = () => {
       const user = await actions.signIn(credentials);
       if (user) {
         nav("/");
+      } else {
+        setErrors(["Invalid Sign-In Credentials!"]);
       }
     } catch (error) {
       console.log(error);
@@ -33,7 +37,7 @@ const UserSignIn = () => {
     <main>
       <div className="form--centered">
         <h2>Sign In</h2>
-
+        <ErrorDisplay errors={errors} />
         <form>
           <label for="emailAddress">Email Address</label>
           <input
