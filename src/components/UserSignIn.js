@@ -1,5 +1,5 @@
 import { useContext, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import UserContext from "../context/UserContext";
 import ErrorDisplay from "./ErrorDisplay";
 
@@ -9,9 +9,15 @@ const UserSignIn = () => {
   const nav = useNavigate();
   const username = useRef(null);
   const password = useRef(null);
+  const location = useLocation();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    let from = "/";
+    if (location.state) {
+      from = location.state.from;
+    }
     const credentials = {
       username: username.current.value,
       password: password.current.value,
@@ -19,7 +25,7 @@ const UserSignIn = () => {
     try {
       const user = await actions.signIn(credentials);
       if (user) {
-        nav("/");
+        nav(from);
       } else {
         setErrors(["Invalid Sign-In Credentials!"]);
       }
