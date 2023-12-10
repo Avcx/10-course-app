@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { api } from "../utils/apihelper";
+import ReactMarkdown from "react-markdown";
 
 const CourseDetail = (props) => {
   const { id } = useParams();
@@ -12,11 +13,6 @@ const CourseDetail = (props) => {
     api(`/courses/${id}`)
       .then((response) => response.json())
       .then((course) => {
-        let matsNeeded = course.materialsNeeded;
-        if (matsNeeded) {
-          course.materialsNeeded = matsNeeded.split(/\*/);
-          course.materialsNeeded.shift();
-        }
         setCourseDetails(course);
         setLoading(false);
         return course;
@@ -30,7 +26,7 @@ const CourseDetail = (props) => {
     <main>
       <div className="actions--bar">
         <div className="wrap">
-          <Link className="button" to="update-course.html">
+          <Link className="button" to={`/courses/${id}/update`}>
             Update Course
           </Link>
           <Link className="button" to="#">
@@ -54,7 +50,7 @@ const CourseDetail = (props) => {
                 {courseDetails.owner ? (
                   <p>{`By ${courseDetails.owner.firstName} ${courseDetails.owner.lastName}`}</p>
                 ) : null}
-                {courseDetails.description}
+                <ReactMarkdown>{courseDetails.description}</ReactMarkdown>
               </div>
               <div>
                 {courseDetails.estimatedTime ? (
@@ -68,13 +64,9 @@ const CourseDetail = (props) => {
                   <>
                     <h3 className="course--detail--title">Materials Needed</h3>
                     <ul className="course--detail--list">
-                      {courseDetails.materialsNeeded.length ? (
-                        courseDetails.materialsNeeded.map((material) => (
-                          <li>{material}</li>
-                        ))
-                      ) : (
-                        <li>{courseDetails.materialsNeeded}</li>
-                      )}
+                      <ReactMarkdown>
+                        {courseDetails.materialsNeeded}
+                      </ReactMarkdown>
                     </ul>
                   </>
                 ) : null}
