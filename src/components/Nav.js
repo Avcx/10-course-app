@@ -10,16 +10,16 @@ const Nav = () => {
         <ul className="header--signedin">
           <li>Welcome, Joe Smith!</li>
           <li>
-            <Link to="/sign-out">Sign Out</Link>
+            <Link to="/signout">Sign Out</Link>
           </li>
         </ul>
       ) : (
         <ul className="header--signedout">
           <li>
-            <Link to="/sign-up">Sign Up</Link>
+            <Link to="/signup">Sign Up</Link>
           </li>
           <li>
-            <Link to="/sign-in">Sign In</Link>
+            <Link to="/signin">Sign In</Link>
           </li>
         </ul>
       )}
