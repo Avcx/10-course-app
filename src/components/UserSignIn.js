@@ -1,6 +1,12 @@
+import { useRef } from "react";
 import { Link } from "react-router-dom";
 
 const UserSignIn = () => {
+  const username = useRef(null);
+  const password = useRef(null);
+
+  const handleSubmit = () => {};
+
   return (
     <main>
       <div className="form--centered">
@@ -8,9 +14,14 @@ const UserSignIn = () => {
 
         <form>
           <label for="emailAddress">Email Address</label>
-          <input id="emailAddress" name="emailAddress" type="email" value="" />
+          <input
+            id="emailAddress"
+            name="emailAddress"
+            type="email"
+            ref={username}
+          />
           <label for="password">Password</label>
-          <input id="password" name="password" type="password" value="" />
+          <input id="password" name="password" type="password" ref={password} />
           <button className="button" type="submit">
             Sign In
           </button>
