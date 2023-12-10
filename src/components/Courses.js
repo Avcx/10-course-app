@@ -24,7 +24,7 @@ const Courses = () => {
               <Link
                 className="course--module course--link"
                 key={course.id}
-                to="course-detail.html"
+                to={`/courses/${course.id}`}
               >
                 <h2 className="course--label">course</h2>
                 <h3 className="course--title">{course.title}</h3>
