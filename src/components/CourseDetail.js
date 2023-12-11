@@ -1,12 +1,15 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { api } from "../utils/apihelper";
 import ReactMarkdown from "react-markdown";
+import UserContext from "../context/UserContext";
 
 const CourseDetail = (props) => {
   const { id } = useParams();
   const [courseDetails, setCourseDetails] = useState({});
   const [loading, setLoading] = useState(false);
+  const [isOwner, setIsOwner] = useState(false);
+  const { authUser } = useContext(UserContext);
 
   useEffect(() => {
     setLoading(true);
@@ -14,24 +17,31 @@ const CourseDetail = (props) => {
       .then((response) => response.json())
       .then((course) => {
         setCourseDetails(course);
+        if (authUser) {
+          setIsOwner(authUser.id === course.owner.id);
+        }
         setLoading(false);
         return course;
       })
       .catch((error) => {
         throw error;
       });
-  }, [id]);
+  }, [id, authUser]);
 
   return (
     <main>
       <div className="actions--bar">
         <div className="wrap">
-          <Link className="button" to={`/courses/${id}/update`}>
-            Update Course
-          </Link>
-          <Link className="button" to="#">
-            Delete Course
-          </Link>
+          {isOwner ? (
+            <>
+              <Link className="button" to={`/courses/${id}/update`}>
+                Update Course
+              </Link>
+              <button className="button" to="">
+                Delete Course
+              </button>{" "}
+            </>
+          ) : null}
           <Link className="button button-secondary" to="/">
             Return to List
           </Link>
