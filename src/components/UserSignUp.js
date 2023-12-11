@@ -26,7 +26,7 @@ const UserSignUp = () => {
     try {
       const response = await api("/users", "POST", body);
       if (response.status === 201) {
-        const user = await actions.signIn({
+        await actions.signIn({
           username: body.emailAddress,
           password: body.password,
         });
