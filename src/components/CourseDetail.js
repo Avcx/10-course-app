@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { api } from "../utils/apihelper";
 import ReactMarkdown from "react-markdown";
 import UserContext from "../context/UserContext";
@@ -10,6 +10,7 @@ const CourseDetail = (props) => {
   const [loading, setLoading] = useState(false);
   const [isOwner, setIsOwner] = useState(false);
   const { authUser } = useContext(UserContext);
+  const nav = useNavigate();
 
   useEffect(() => {
     setLoading(true);
@@ -28,6 +29,26 @@ const CourseDetail = (props) => {
       });
   }, [id, authUser]);
 
+  const handleDelete = async (e) => {
+    e.preventDefault();
+
+    const credentials = {
+      username: authUser.emailAddress,
+      password: authUser.password,
+    };
+
+    try {
+      const response = await api(`/courses/${id}`, "DELETE", null, credentials);
+      console.log(response.status);
+      if (response.status === 204) {
+        nav("/");
+      } else {
+      }
+    } catch (error) {
+      throw error;
+    }
+  };
+
   return (
     <main>
       <div className="actions--bar">
@@ -37,7 +58,7 @@ const CourseDetail = (props) => {
               <Link className="button" to={`/courses/${id}/update`}>
                 Update Course
               </Link>
-              <button className="button" to="">
+              <button className="button" onClick={handleDelete}>
                 Delete Course
               </button>{" "}
             </>
