@@ -34,7 +34,7 @@ const UpdateCourse = () => {
     e.preventDefault();
 
     const credentials = {
-      username: authUser.username,
+      username: authUser.emailAddress,
       password: authUser.password,
     };
     const body = {
@@ -47,13 +47,18 @@ const UpdateCourse = () => {
     const response = await api(`/courses/${id}`, "PUT", body, credentials);
     if (response.status === 204) {
       nav(`/courses/${id}`);
-    } else if (response.status === 403 || response.status === 401) {
-      setErrors(["You do not own this course!"]);
+    } else if (response.status === 403) {
+      console.warn("Forbidden: User doesn't own this course. (403)");
+      nav("/forbidden");
+    } else if (response.status === 401) {
+      console.warn("Unauthorized: No user detected. (401)");
+      nav("/signin");
     } else if (response.status === 400) {
       const validationErrors = await response.json();
       setErrors(validationErrors["Validation Errors"]);
     } else {
-      throw new Error();
+      console.log("Oops... Unhandled Error");
+      nav("/error");
     }
   };
 
