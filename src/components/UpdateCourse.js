@@ -51,7 +51,10 @@ const UpdateCourse = () => {
     } else if (response.status === 403 || response.status === 401) {
       setErrors(["You do not own this course!"]);
     } else if (response.status === 400) {
-      setErrors(response.body["Validation Errors"]);
+      const body = await response.json();
+      setErrors(body["Validation Errors"]);
+    } else {
+      throw new Error();
     }
   };
 
