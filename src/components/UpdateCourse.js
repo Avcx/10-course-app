@@ -24,7 +24,6 @@ const UpdateCourse = () => {
       .then((course) => {
         setCourseDetails(course);
         setLoading(false);
-        return course;
       })
       .catch((error) => {
         throw error;
@@ -51,8 +50,8 @@ const UpdateCourse = () => {
     } else if (response.status === 403 || response.status === 401) {
       setErrors(["You do not own this course!"]);
     } else if (response.status === 400) {
-      const body = await response.json();
-      setErrors(body["Validation Errors"]);
+      const validationErrors = await response.json();
+      setErrors(validationErrors["Validation Errors"]);
     } else {
       throw new Error();
     }
@@ -63,59 +62,65 @@ const UpdateCourse = () => {
     nav("/");
   };
 
+  const Display = (
+    <form>
+      <div className="main--flex">
+        <div>
+          <label htmlFor="courseTitle">Course Title</label>
+          <input
+            id="courseTitle"
+            name="courseTitle"
+            type="text"
+            defaultValue={courseDetails.title}
+            ref={title}
+          />
+
+          {courseDetails.owner ? (
+            <p>{`By ${courseDetails.owner.firstName} ${courseDetails.owner.lastName}`}</p>
+          ) : null}
+
+          <label htmlFor="courseDescription">Course Description</label>
+          <textarea
+            id="courseDescription"
+            name="courseDescription"
+            defaultValue={courseDetails.description}
+            ref={description}
+          />
+        </div>
+        <div>
+          <label htmlFor="estimatedTime">Estimated Time</label>
+          <input
+            id="estimatedTime"
+            name="estimatedTime"
+            type="text"
+            defaultValue={courseDetails.estimatedTime}
+            ref={estimatedTime}
+          />
+
+          <label htmlFor="materialsNeeded">Materials Needed</label>
+          <textarea
+            id="materialsNeeded"
+            name="materialsNeeded"
+            defaultValue={courseDetails.materialsNeeded}
+            ref={materialsNeeded}
+          />
+        </div>
+      </div>
+      <button className="button" type="submit" onClick={handleSumbit}>
+        Update Course
+      </button>
+      <button className="button button-secondary" onClick={handleCancel}>
+        Cancel
+      </button>
+    </form>
+  );
+
   return (
     <main>
       <div className="wrap">
         <h2>Update Course</h2>
         <ErrorDisplay errors={errors} />
-        <form>
-          <div className="main--flex">
-            <div>
-              <label htmlFor="courseTitle">Course Title</label>
-              <input
-                id="courseTitle"
-                name="courseTitle"
-                type="text"
-                defaultValue={courseDetails.title}
-                ref={title}
-              />
-
-              <p>By Joe Smith</p>
-
-              <label htmlFor="courseDescription">Course Description</label>
-              <textarea
-                id="courseDescription"
-                name="courseDescription"
-                defaultValue={courseDetails.description}
-                ref={description}
-              />
-            </div>
-            <div>
-              <label htmlFor="estimatedTime">Estimated Time</label>
-              <input
-                id="estimatedTime"
-                name="estimatedTime"
-                type="text"
-                defaultValue={courseDetails.estimatedTime}
-                ref={estimatedTime}
-              />
-
-              <label htmlFor="materialsNeeded">Materials Needed</label>
-              <textarea
-                id="materialsNeeded"
-                name="materialsNeeded"
-                defaultValue={courseDetails.materialsNeeded}
-                ref={materialsNeeded}
-              />
-            </div>
-          </div>
-          <button className="button" type="submit" onClick={handleSumbit}>
-            Update Course
-          </button>
-          <button className="button button-secondary" onClick={handleCancel}>
-            Cancel
-          </button>
-        </form>
+        {loading ? null : Display}
       </div>
     </main>
   );
