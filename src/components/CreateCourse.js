@@ -50,7 +50,7 @@ const CreateCourse = () => {
     try {
       const response = await api("/courses", "POST", body, credentials);
       if (response.status === 201) {
-        nav(`/`);
+        nav("/");
       } else if (response.status === 400) {
         const responseBody = await response.json();
         setErrors(responseBody["Validation Errors"]);
