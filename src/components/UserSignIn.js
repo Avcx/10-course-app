@@ -3,6 +3,12 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import UserContext from "../context/UserContext";
 import ErrorDisplay from "./ErrorDisplay";
 
+/**
+ * UserSignIn - displays a form allowing the user to sign into the app.
+ *
+ * @returns (JSX Component) - User Sign In Form.
+ */
+
 const UserSignIn = () => {
   const [errors, setErrors] = useState([]);
   const { actions } = useContext(UserContext);
@@ -11,10 +17,14 @@ const UserSignIn = () => {
   const password = useRef(null);
   const location = useLocation();
 
+  // handleSubmit - attempts to sign into the database using the supplied information.
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     let from = "/";
+
+    // Detects if user was redirected from a protected route and changes the log in to redirect them back to that route.
     if (location.state) {
       from = location.state.from;
     }
@@ -25,6 +35,7 @@ const UserSignIn = () => {
     try {
       const user = await actions.signIn(credentials);
       if (user) {
+        // On successful log-in redirects user.
         nav(from);
       } else {
         setErrors(["Invalid Sign-In Credentials!"]);
