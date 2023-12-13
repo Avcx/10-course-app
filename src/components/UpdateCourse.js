@@ -4,6 +4,12 @@ import { api } from "../utils/apihelper";
 import UserContext from "../context/UserContext";
 import ErrorDisplay from "./ErrorDisplay";
 
+/**
+ * Displays a dynamic form to update the selected course
+ *
+ * @returns (JSX Componenet) - Update course form
+ */
+
 const UpdateCourse = () => {
   const { id } = useParams();
   const { authUser } = useContext(UserContext);
@@ -19,19 +25,30 @@ const UpdateCourse = () => {
 
   useEffect(() => {
     setLoading(true);
+
+    // Api call for the information of the selected course
+    // Stores info in state if successfully found
+
     api(`/courses/${id}`)
       .then((response) => response.json())
       .then((course) => {
-        setCourseDetails(course);
+        if (course) {
+          setCourseDetails(course);
+        } else {
+          nav("/notfound");
+        }
         setLoading(false);
       })
       .catch((error) => {
-        throw error;
+        console.error(error);
+        nav("/error");
       });
-  }, [id]);
+  }, [id, nav]);
 
   const handleSumbit = async (e) => {
     e.preventDefault();
+
+    // Takes supplied credentials and body information and attempts a PUT request to the api.
 
     const credentials = {
       username: authUser.emailAddress,
@@ -44,18 +61,27 @@ const UpdateCourse = () => {
       estimatedTime: estimatedTime.current.value,
       materialsNeeded: materialsNeeded.current.value,
     };
+
+    // Sends request and handles the response accordingly
+
     try {
       const response = await api(`/courses/${id}`, "PUT", body, credentials);
       if (response.status === 204) {
         nav(`/courses/${id}`);
       } else if (response.status === 403) {
+        // Forbidden
         console.warn("Forbidden: User doesn't own this course. (403)");
         nav("/forbidden");
       } else if (response.status === 401) {
+        // Unauthorized
         console.warn("Unauthorized: No user detected. (401)");
         nav("/signin");
       } else if (response.status === 400) {
+        // Bad Request
+
         const validationErrors = await response.json();
+
+        // Checks whether the reason for the '400' response was a "Validation Error" or the course doesn't exist anymore (A very unlikey outcome).
         validationErrors["Validation Errors"]
           ? setErrors(validationErrors["Validation Errors"])
           : nav("/notfound");
@@ -68,10 +94,14 @@ const UpdateCourse = () => {
     }
   };
 
+  // Navigates back to the selected course the update was launched from
+
   const handleCancel = (e) => {
     e.preventDefault();
-    nav("/");
+    nav(`/courses/${id}`);
   };
+
+  // 'Display' variable used to contain JSX while loading course information
 
   const Display = (
     <form>
@@ -138,32 +168,3 @@ const UpdateCourse = () => {
 };
 
 export default UpdateCourse;
-
-/* 
-<main>
-            <div classname="wrap">
-                <h2>Update Course</h2>
-                <form>
-                    <div classname="main--flex">
-                        <div>
-                            <label for="courseTitle">Course Title</label>
-                            <input id="courseTitle" name="courseTitle" type="text" value="Build a Basic Bookcase">
-
-                            <p>By Joe Smith</p>
-
-                            <label for="courseDescription">Course Description</label>
-                            <textarea id="courseDescription" name="courseDescription">High-end furniture projects are great to dream about. But unless you have a well-equipped shop and some serious woodworking experience to draw on, it can be difficult to turn the dream into a reality.&#13;&#13;Not every piece of furniture needs to be a museum showpiece, though. Often a simple design does the job just as well and the experience gained in completing it goes a long way toward making the next project even better.&#13;&#13;Our pine bookcase, for example, features simple construction and it's designed to be built with basic woodworking tools. Yet, the finished project is a worthy and useful addition to any room of the house. While it's meant to rest on the floor, you can convert the bookcase to a wall-mounted storage unit by leaving off the baseboard. You can secure the cabinet to the wall by screwing through the cabinet cleats into the wall studs.&#13;&#13;We made the case out of materials available at most building-supply dealers and lumberyards, including 1/2 x 3/4-in. parting strip, 1 x 2, 1 x 4 and 1 x 10 common pine and 1/4-in.-thick lauan plywood. Assembly is quick and easy with glue and nails, and when you're done with construction you have the option of a painted or clear finish.&#13;&#13;As for basic tools, you'll need a portable circular saw, hammer, block plane, combination square, tape measure, metal rule, two clamps, nail set and putty knife. Other supplies include glue, nails, sandpaper, wood filler and varnish or paint and shellac.&#13;&#13;The specifications that follow will produce a bookcase with overall dimensions of 10 3/4 in. deep x 34 in. wide x 48 in. tall. While the depth of the case is directly tied to the 1 x 10 stock, you can vary the height, width and shelf spacing to suit your needs. Keep in mind, though, that extending the width of the cabinet may require the addition of central shelf supports.</textarea>
-                        </div>
-                        <div>
-                            <label for="estimatedTime">Estimated Time</label>
-                            <input id="estimatedTime" name="estimatedTime" type="text" value="14 hours">
-
-                            <label for="materialsNeeded">Materials Needed</label>
-                            <textarea id="materialsNeeded" name="materialsNeeded">* 1/2 x 3/4 inch parting strip&#13;&#13;* 1 x 2 common pine&#13;&#13;* 1 x 4 common pine&#13;&#13;* 1 x 10 common pine&#13;&#13;* 1/4 inch thick lauan plywood&#13;&#13;* Finishing Nails&#13;&#13;* Sandpaper&#13;&#13;* Wood Glue&#13;&#13;* Wood Filler&#13;&#13;* Minwax Oil Based Polyurethane</textarea>
-                        </div>
-                    </div>
-                    <button classname="button" type="submit">Update Course</button><button classname="button button-secondary" onclick="event.preventDefault(); location.href='index.html';">Cancel</button>
-                </form>
-            </div>
-        </main>
-*/
