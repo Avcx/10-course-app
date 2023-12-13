@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { api } from "../utils/apihelper";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Courses = () => {
   const [courses, setCourses] = useState([]);
+  const nav = useNavigate();
 
   useEffect(() => {
     api("/courses")
@@ -12,10 +13,10 @@ const Courses = () => {
         setCourses(json);
       })
       .catch((error) => {
-        // handle error
         console.log("Error fetching and parsing data!", error);
+        nav("/error");
       });
-  }, []);
+  }, [nav]);
   return (
     <main>
       <div className="wrap main--grid">
