@@ -4,6 +4,12 @@ import UserContext from "../context/UserContext";
 import ErrorDisplay from "./ErrorDisplay";
 import { useNavigate } from "react-router-dom";
 
+/**
+ * UserSignUp - shows a form allowing the user to create a new account in the database.
+ *
+ * @returns (JSX Component) - User Sign Up Form.
+ */
+
 const UserSignUp = () => {
   const { actions } = useContext(UserContext);
   const nav = useNavigate();
@@ -12,6 +18,8 @@ const UserSignUp = () => {
   const lastName = useRef(null);
   const emailAddress = useRef(null);
   const password = useRef(null);
+
+  // handleSubmit sends a POST request with the information in the form to create a new user.
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,6 +34,8 @@ const UserSignUp = () => {
     try {
       const response = await api("/users", "POST", body);
       if (response.status === 201) {
+        // Success
+        // Signs newly created user in
         await actions.signIn({
           username: body.emailAddress,
           password: body.password,
