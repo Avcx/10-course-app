@@ -41,7 +41,7 @@ const CourseDetail = () => {
       });
   }, [id, authUser, nav]);
 
-  // handleDelete
+  // handleDelete submits a DELETE request to the server for the selected course.
 
   const handleDelete = async (e) => {
     e.preventDefault();
@@ -54,8 +54,10 @@ const CourseDetail = () => {
     try {
       const response = await api(`/courses/${id}`, "DELETE", null, credentials);
       if (response.status === 204) {
+        // Success
         nav("/");
       } else if (response.status === 403) {
+        // Forbidden
         console.warn("Forbidden: User doesn't own this course. (403)");
         nav("/forbidden");
       } else if (response.status === 400) {
