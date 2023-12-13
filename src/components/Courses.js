@@ -2,11 +2,20 @@ import { useEffect, useState } from "react";
 import { api } from "../utils/apihelper";
 import { Link, useNavigate } from "react-router-dom";
 
+/**
+ * Courses - displays a list of all the courses in the database.
+ *
+ * @returns (JSX Component) - List of Coourses.
+ */
+
 const Courses = () => {
   const [courses, setCourses] = useState([]);
   const nav = useNavigate();
 
+  // useEffect fetches all courses from the api
+
   useEffect(() => {
+    // Fetches all courses and stores them into state
     api("/courses")
       .then((response) => response.json())
       .then((json) => {
@@ -17,6 +26,7 @@ const Courses = () => {
         nav("/error");
       });
   }, [nav]);
+
   return (
     <main>
       <div className="wrap main--grid">

@@ -4,13 +4,20 @@ import { api } from "../utils/apihelper";
 import ReactMarkdown from "react-markdown";
 import UserContext from "../context/UserContext";
 
-const CourseDetail = (props) => {
+/**
+ * CourseDetails - shows the details of the selected courseID.
+ * @returns (JSX Component) - Form of course details.
+ */
+
+const CourseDetail = () => {
   const { id } = useParams();
   const [courseDetails, setCourseDetails] = useState({});
   const [loading, setLoading] = useState(false);
   const [isOwner, setIsOwner] = useState(false);
   const { authUser } = useContext(UserContext);
   const nav = useNavigate();
+
+  // useEffect loads course details from api and stores them in component state
 
   useEffect(() => {
     setLoading(true);
@@ -33,6 +40,8 @@ const CourseDetail = (props) => {
         nav("/error");
       });
   }, [id, authUser, nav]);
+
+  // handleDelete
 
   const handleDelete = async (e) => {
     e.preventDefault();
