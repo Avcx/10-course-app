@@ -44,20 +44,26 @@ const UpdateCourse = () => {
       estimatedTime: estimatedTime.current.value,
       materialsNeeded: materialsNeeded.current.value,
     };
-    const response = await api(`/courses/${id}`, "PUT", body, credentials);
-    if (response.status === 204) {
-      nav(`/courses/${id}`);
-    } else if (response.status === 403) {
-      console.warn("Forbidden: User doesn't own this course. (403)");
-      nav("/forbidden");
-    } else if (response.status === 401) {
-      console.warn("Unauthorized: No user detected. (401)");
-      nav("/signin");
-    } else if (response.status === 400) {
-      const validationErrors = await response.json();
-      setErrors(validationErrors["Validation Errors"]);
-    } else {
-      console.log("Oops... Unhandled Error");
+    try {
+      const response = await api(`/courses/${id}`, "PUT", body, credentials);
+      if (response.status === 204) {
+        nav(`/courses/${id}`);
+      } else if (response.status === 403) {
+        console.warn("Forbidden: User doesn't own this course. (403)");
+        nav("/forbidden");
+      } else if (response.status === 401) {
+        console.warn("Unauthorized: No user detected. (401)");
+        nav("/signin");
+      } else if (response.status === 400) {
+        const validationErrors = await response.json();
+        validationErrors["Validation Errors"]
+          ? setErrors(validationErrors["Validation Errors"])
+          : nav("/notfound");
+      } else {
+        throw new Error();
+      }
+    } catch (error) {
+      console.error(error);
       nav("/error");
     }
   };
