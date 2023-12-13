@@ -17,17 +17,22 @@ const CourseDetail = (props) => {
     api(`/courses/${id}`)
       .then((response) => response.json())
       .then((course) => {
-        setCourseDetails(course);
-        if (authUser) {
-          setIsOwner(authUser.id === course.owner.id);
+        if (course) {
+          setCourseDetails(course);
+          if (authUser) {
+            setIsOwner(authUser.id === course.owner.id);
+          }
+          setLoading(false);
+          return course;
+        } else {
+          nav("/notfound");
         }
-        setLoading(false);
-        return course;
       })
       .catch((error) => {
-        throw error;
+        console.error(error);
+        nav("/error");
       });
-  }, [id, authUser]);
+  }, [id, authUser, nav]);
 
   const handleDelete = async (e) => {
     e.preventDefault();
@@ -39,13 +44,19 @@ const CourseDetail = (props) => {
 
     try {
       const response = await api(`/courses/${id}`, "DELETE", null, credentials);
-      console.log(response.status);
       if (response.status === 204) {
         nav("/");
+      } else if (response.status === 403) {
+        console.warn("Forbidden: User doesn't own this course. (403)");
+        nav("/forbidden");
+      } else if (response.status === 400) {
+        nav("/notfound");
       } else {
+        throw new Error();
       }
     } catch (error) {
-      throw error;
+      console.error(error);
+      nav("/error");
     }
   };
 
