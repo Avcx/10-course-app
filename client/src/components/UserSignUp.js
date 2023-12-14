@@ -14,6 +14,9 @@ const UserSignUp = () => {
   const { actions } = useContext(UserContext);
   const nav = useNavigate();
   const [errors, setErrors] = useState([]);
+
+  // Creating Refs to hold form values
+
   const firstName = useRef(null);
   const lastName = useRef(null);
   const emailAddress = useRef(null);

@@ -13,8 +13,12 @@ const UserSignIn = () => {
   const [errors, setErrors] = useState([]);
   const { actions } = useContext(UserContext);
   const nav = useNavigate();
+
+  // Creating Refs to hold form values
+
   const username = useRef(null);
   const password = useRef(null);
+
   const location = useLocation();
 
   // handleSubmit - attempts to sign into the database using the supplied information.

@@ -18,6 +18,8 @@ const UpdateCourse = () => {
   const [errors, setErrors] = useState([]);
   const nav = useNavigate();
 
+  // Creating Refs to hold form values
+
   const title = useRef(null);
   const description = useRef(null);
   const estimatedTime = useRef(null);
@@ -33,7 +35,7 @@ const UpdateCourse = () => {
       .then((response) => response.json())
       .then((course) => {
         if (course) {
-          // Detects if user might have typed in '/update' in address bar. Before loading page.
+          // Detects if user might have typed in '/update' in address bar, before loading page.
           authUser.id !== course.owner.id
             ? nav("/forbidden")
             : setCourseDetails(course);
