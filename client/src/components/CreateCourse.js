@@ -56,7 +56,8 @@ const CreateCourse = () => {
         setErrors(responseBody["Validation Errors"]);
       }
     } catch (error) {
-      throw error;
+      console.error(error);
+      nav("/error");
     }
   };
 

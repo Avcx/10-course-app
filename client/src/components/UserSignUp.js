@@ -46,7 +46,8 @@ const UserSignUp = () => {
         setErrors(validationErrors["Validation Errors"]);
       }
     } catch (error) {
-      throw new Error();
+      console.error("/error");
+      nav("/error");
     }
   };
 

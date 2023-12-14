@@ -42,6 +42,7 @@ const UserSignIn = () => {
       }
     } catch (error) {
       console.log(error);
+      nav("/error");
     }
   };
 
