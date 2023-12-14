@@ -46,7 +46,7 @@ const UpdateCourse = () => {
         console.error(error);
         nav("/error");
       });
-  }, [id, nav]);
+  }, [id, nav, authUser]);
 
   const handleSumbit = async (e) => {
     e.preventDefault();
