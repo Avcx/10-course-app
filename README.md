@@ -31,7 +31,7 @@ The client uses React for UI in conjuction with React-Router-DOm for routing. Wh
    npm i
    ```
 
-   This will install React alongwith the other required modules.
+   This will install React along with the other required modules.
    After these install, run:
 
    ``` zsh
