@@ -20,7 +20,7 @@ The client uses React for UI in conjuction with React-Router-DOm for routing. Wh
    After these install, run:
 
    ``` zsh
-   npm run
+   npm start
    ```
 
    This will get the server up and running, ready to server respond to the client's requests.
@@ -35,7 +35,7 @@ The client uses React for UI in conjuction with React-Router-DOm for routing. Wh
    After these install, run:
 
    ``` zsh
-   npm run
+   npm start
    ```
 
    This will start the client-side of the application allowing for easier interaction with the server api.
