@@ -33,7 +33,10 @@ const UpdateCourse = () => {
       .then((response) => response.json())
       .then((course) => {
         if (course) {
-          setCourseDetails(course);
+          // Detects if user might have typed in '/update' in address bar. Before loading page.
+          authUser.id !== course.owner.id
+            ? nav("/forbidden")
+            : setCourseDetails(course);
         } else {
           nav("/notfound");
         }
