@@ -1,5 +1,5 @@
 export const api = (path, method = "GET", body = null, credentials = null) => {
-  const url = "http://courseapp-backend.up.railway.app/api" + path;
+  const url = "https://courseapp-backend.up.railway.app/api" + path;
 
   const options = {
     method,
