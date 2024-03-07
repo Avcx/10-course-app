@@ -4,6 +4,10 @@ This administrative for keeping track of courses in a database. Allowing users t
 Modification actions are restircted to registered users and courses can only be modified by their creator.
 The client uses React for UI in conjuction with React-Router-Dom for routing. While the API uses Express for authentication, database maangement and serving dynamic data to the client.
 
+## Live Version
+
+[View Live App]("http://course-app.up.railway.app")
+
 ## Installation Instructions
 
 1. Download the project files.
@@ -16,7 +20,7 @@ The client uses React for UI in conjuction with React-Router-Dom for routing. Wh
    npm i
    ```
 
-   This will install Express and the other required modules.
+   This will install Express along with the other required dependencies.
    After these install, run:
 
    ``` zsh
@@ -31,7 +35,7 @@ The client uses React for UI in conjuction with React-Router-Dom for routing. Wh
    npm i
    ```
 
-   This will install React along with the other required modules.
+   This will install React along with the other required dependencies.
    After these install, run:
 
    ``` zsh
