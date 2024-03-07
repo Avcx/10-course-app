@@ -9,7 +9,7 @@ The database uses sequelize and sqlite3 to handle user and course data.
 
 ## Live Version
 
-If you want to experiment with a live version of the click the link below!
+If you want to view a live version of the app click the link below!
 
    [View Live App](http://course-app.up.railway.app)
 
