@@ -6,7 +6,9 @@ The client uses React for UI in conjuction with React-Router-Dom for routing. Wh
 
 ## Live Version
 
-[View Live App](http://course-app.up.railway.app)
+If you want to experiment with a live version of the click the link below!
+
+   [View Live App](http://course-app.up.railway.app)
 
 ## Installation Instructions
 
