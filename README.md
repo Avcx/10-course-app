@@ -2,7 +2,10 @@
 
 This administrative for keeping track of courses in a database. Allowing users to view, create, edit and delete courses in the database.
 Modification actions are restircted to registered users and courses can only be modified by their creator.
-The client uses React for UI in conjuction with React-Router-Dom for routing. While the API uses Express for authentication, database maangement and serving dynamic data to the client.
+
+The client uses React for UI in conjuction with React-Router-Dom for routing and the Context API to share user state. While the API uses Express for authentication, database maangement and serving dynamic data to the client.
+
+The database uses sequelize and sqlite3 to handle user and course data.
 
 ## Live Version
 
